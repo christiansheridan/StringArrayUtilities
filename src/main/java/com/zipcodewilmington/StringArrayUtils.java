@@ -4,6 +4,7 @@ import com.sun.tools.javac.util.ArrayUtils;
 import javax.swing.text.Element;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.Arrays;
 
 /**
  * Created by leon on 1/29/18.
@@ -57,14 +58,18 @@ public class StringArrayUtils {
      * @return an array with identical contents in reverse order
      */ // TODO
     public static String[] reverse(String[] array) {
-        int i = 0;
-        String temp = "";
-        for (i= 0; i<array.length/2; i++){
+        int i;
+        String [] reverseArray = new String[array.length];
+        for(i = 0; i<array.length; i++){
+            reverseArray[i] = array[array.length-i-1];
+        }
+        //String temp = "";
+        /*for (i= 0; i<array.length/2; i++){
             temp = array[i];
             array[i] = array[array.length - (i+1)];
             array[array.length - (i+1)] = temp;
-        }
-        return array;
+        }*/
+        return reverseArray;
     }
 
     /**
@@ -72,7 +77,7 @@ public class StringArrayUtils {
      * @return true if the order of the array is the same backwards and forwards
      */ // TODO
     public static boolean isPalindromic(String[] array) {
-        if (reverse(array).equals(array)){
+        if (Arrays.equals(reverse(array), array)){
             return true;
         } return false;
     }
@@ -90,9 +95,9 @@ public class StringArrayUtils {
             test = arrayToString.indexOf(a);
             if (test >= 0) {
                 testBoolean = true;
-            } else {
-                testBoolean = false;
-            }
+            } else {testBoolean = false;
+            break;}
+            System.out.println(a);
         }
             return testBoolean;
     }
@@ -148,17 +153,31 @@ public class StringArrayUtils {
      * @param array array of chars
      * @return array of Strings with each consecutive duplicate occurrence concatenated as a single string in an array of Strings
      */ // TODO
-    public static String[] packConsecutiveDuplicates(String[] array) {
-        ArrayList<String> newArray = new ArrayList<String>();
-        for(int i = 0; i < array.length-2; i++){
-            if (array[i].equals(array[i++])){
-                newArray.add(array[i]+array[i+1]);}
-                else{newArray.add(array[i]);}
-        } newArray.add(array[array.length-1]);
-        String[] finalArr = new String[newArray.size()];
-        finalArr = newArray.toArray(finalArr);
-        return finalArr;
+
+        public static String[] packConsecutiveDuplicates(String[] array) {
+            ArrayList<String> consecString = new ArrayList<String>();
+            String last = array[0];
+            consecString.add(array[0]);
+            //for each word
+            for(int i = 1; i < array.length; i ++){
+                //String next = array[i];
+                //if the words are equal
+                if(array[i].equals(last))
+                {
+                    consecString.set(consecString.size()-1, consecString.get(consecString.size()-1) + array[i]);
+                } else {
+                    consecString.add(array[i]);
+                    last = array[i];
+                }
+            }
+            String[] newArray = new String[consecString.size()];
+            newArray = consecString.toArray(new String[consecString.size()]);
+            //System.out.println(Arrays.toString(newArray));
+            return newArray;
+        }
+
+
     }
 
 
-}
+
